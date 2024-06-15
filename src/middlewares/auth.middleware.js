@@ -4,7 +4,7 @@ import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 
 
-export const verifyJWT = asyncHandler(async(req, _, next) => {
+export const verifyJWT = asyncHandler(async(req, res, next) => {
     try {
         const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
     
@@ -24,5 +24,19 @@ export const verifyJWT = asyncHandler(async(req, _, next) => {
         next()
     } catch (error) {
         throw new ApiError(401, error?.message || "Invalid access token")
+    }
+})
+
+export const verifyAdmin = asyncHandler(async(req, res, next) => {
+    try {
+        const user = await User.findById(req.user.id).select("-password -refreshToken")
+    
+        if(!user || !user.isOrganizer){
+            throw new ApiError(401, "User is not an organizer")
+        }
+    
+        next()
+    } catch (error) {
+        throw new ApiError(401, error?.message || "Invalid access")
     }
 })
