@@ -1,0 +1,397 @@
+{
+	"info": {
+		"_postman_id": "47f116c1-798e-4c8f-9326-ed351362c07a",
+		"name": "EventManagement",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36305891"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register a User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "testorg",
+									"contentType": "application/json",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "testorg@.com",
+									"contentType": "application/json",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456789",
+									"contentType": "application/json",
+									"type": "text"
+								},
+								{
+									"key": "isOrganizer",
+									"value": "true",
+									"contentType": "application/json",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/user/register?username=jatingupta&email=jatinridhi3378@gmail.com&password=123456789&isOrganizer=true",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"user",
+								"register"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "jatingupta"
+								},
+								{
+									"key": "email",
+									"value": "jatinridhi3378@gmail.com"
+								},
+								{
+									"key": "password",
+									"value": "123456789"
+								},
+								{
+									"key": "isOrganizer",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"test\",\r\n    \"password\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/user/login?username=jatingupta&password=123456789",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "jatingupta"
+								},
+								{
+									"key": "password",
+									"value": "123456789"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{server}}/user/logout",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{server}}/user/users",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"user",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/user/users/666c24948149a3ecd5efd937",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"user",
+								"users",
+								"666c24948149a3ecd5efd937"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Event",
+			"item": [
+				{
+					"name": "Register Event",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Conti Party\",\r\n    \"description\": \"A continuation Party for 12th students\",\r\n    \"location\": \"After Hours\",\r\n    \"date\": \"06-12-2024\"\r\n}"
+						},
+						"url": {
+							"raw": "{{server}}/event/register",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"event",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Events",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/event/events",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"event",
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Event By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/event/events/667015ea53c05a92e9d27f33",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"event",
+								"events",
+								"667015ea53c05a92e9d27f33"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Event By ID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": \"after hours\",\r\n    \"date\": \"06-12-2024\",\r\n    \"organizer\": \"666b47a5a1865c795a1636dc\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/event/event-update/667015ea53c05a92e9d27f33",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"event",
+								"event-update",
+								"667015ea53c05a92e9d27f33"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Event By ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/event/event-delete/667015ea53c05a92e9d27f33",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"event",
+								"event-delete",
+								"667015ea53c05a92e9d27f33"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Registration",
+			"item": [
+				{
+					"name": "Registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"event\": \"667015ea53c05a92e9d27f33\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/registration/register",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"registration",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Registration",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/registration/registrations",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"registration",
+								"registrations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registration by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/registration/registrations/666ff059078f5ef0a3810cbc",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"registration",
+								"registrations",
+								"666ff059078f5ef0a3810cbc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Registration By ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/registration/registration-delete/667017fc96358e539c960b8a",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"registration",
+								"registration-delete",
+								"667017fc96358e539c960b8a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
