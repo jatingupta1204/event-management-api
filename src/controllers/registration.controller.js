@@ -33,7 +33,7 @@ const eventRegistration = asyncHandler(async(req, res) => {
         throw new ApiError(404, "Event not found")
     }
 
-    event.participant.push(registration._id);
+    event.participants.push(registration.user);
     await event.save();
 
     return res
