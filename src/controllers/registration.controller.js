@@ -2,12 +2,13 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Registration } from "../models/registration.model.js";
+import { Event } from "../models/event.model.js";
 
 const eventRegistration = asyncHandler(async(req, res) => {
     const user = req.user.id
-    const {event} = req.body
+    const {event: eventId} = req.body
 
-    if(!user || !event){
+    if(!user || !eventId){
         throw new ApiError(400, "All fields are required")
     }
 
@@ -19,12 +20,21 @@ const eventRegistration = asyncHandler(async(req, res) => {
 
     const registration = await Registration.create({
         user,
-        event
+        event: eventId
     })
 
     if(!registration){
         throw new ApiError(500, "Something went wrong while registering for event")
     }
+
+    const event = await Event.findById(eventId)
+
+    if(!event){
+        throw new ApiError(404, "Event not found")
+    }
+
+    event.participant.push(registration._id);
+    await event.save();
 
     return res
     .status(200)
@@ -62,14 +72,18 @@ const deleteRegistrationById = asyncHandler(async(req, res) => {
         {
             _id: id,
             user: userId
-        },
-        {
-            new: true
         }
     )
     
     if(!deleteRegistration){
         throw new ApiError(404, "Registration not found")
+    }
+
+    const event = await Event.findById(deleteRegistration.event)
+
+    if(event){
+        event.participant.pull(deleteRegistration._id)
+        await event.save()
     }
 
     return res

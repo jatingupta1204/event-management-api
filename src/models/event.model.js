@@ -23,7 +23,7 @@ const eventSchema = new Schema({
     },
     participant: [{
         type: Schema.Types.ObjectId,
-        ref: "User"
+        ref: "Registration"
     }]
 }, {timestamps: true})
 

@@ -2,18 +2,20 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Event } from "../models/event.model.js";
+import { Registration } from "../models/registration.model.js";
 
 const registerEvent = asyncHandler(async(req, res) => {
-    const {name, description, location, date, organizer} = req.body
+    const organizer = req.user.id
+    const {name, description, location, date} = req.body
 
-    if([name, description, location, date, organizer].some((field) => field?.trim() === "")){
+    if([name, description, location, date].some((field) => field?.trim() === "")){
         throw new ApiError(400, "All fields are required")
     }
 
     const eventDate = new Date(date).toString()//mm-dd-yyyy
 
     const existingEvent = await Event.findOne({
-        $or: [{name}, {organizer}]
+        $and: [{name}, {organizer}]
     })
 
     if(existingEvent){
@@ -25,7 +27,7 @@ const registerEvent = asyncHandler(async(req, res) => {
         description,
         location,
         date: eventDate,
-        organizer
+        organizer,
     })
 
     if(!event){
@@ -42,7 +44,7 @@ const getAllEvent = asyncHandler(async(req, res) => {
 
     return res
     .status(200)
-    .json(new ApiResponse(200, [event], "Events fetched successfully"))
+    .json(new ApiResponse(200, event, "Events fetched successfully"))
 })
 
 const getEventById = asyncHandler(async(req, res) => {
@@ -61,14 +63,18 @@ const getEventById = asyncHandler(async(req, res) => {
 
 const updateEventById = asyncHandler(async(req, res) => {
     const {id} = req.params
+    const userId = req.user.id
     const {location, date} = req.body
 
     if([location, date].some((field) => field?.trim() === "")){
         throw new ApiError(400, "All fields are required")
     }
 
-    const event = await Event.findByIdAndUpdate(
-        id,
+    const event = await Event.findOneAndUpdate(
+        {
+            _id: id,
+            organizer: userId
+        },
         {
             $set: {
                 location,
@@ -91,10 +97,14 @@ const updateEventById = asyncHandler(async(req, res) => {
 
 const deleteEventById = asyncHandler(async(req, res) => {
     const {id} = req.params
-    const event = await Event.findByIdAndDelete(
-        id,
+    const userId = req.user.id
+
+    console.log(userId);
+
+    const event = await Event.findOneAndDelete(
         {
-            new: true
+            _id: id,
+            organizer: userId   
         }
     )
 

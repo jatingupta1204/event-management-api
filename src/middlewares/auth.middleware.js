@@ -34,7 +34,7 @@ export const verifyAdmin = asyncHandler(async(req, res, next) => {
         if(!user || !user.isOrganizer){
             throw new ApiError(401, "User is not an organizer")
         }
-    
+        req.user = user
         next()
     } catch (error) {
         throw new ApiError(401, error?.message || "Invalid access")

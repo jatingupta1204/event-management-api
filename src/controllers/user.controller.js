@@ -160,7 +160,7 @@ const getAllUsers = asyncHandler(async(req, res) => {
     const user = await User.find().select("-password -refreshToken")
     return res
     .status(200)
-    .json(new ApiResponse(200, [user], "Users fetched Successfully"))
+    .json(new ApiResponse(200, user, "Users fetched Successfully"))
 })
 
 const getUserById = asyncHandler(async(req, res) => {

@@ -8,6 +8,6 @@ router.route("/register").post(verifyJWT, verifyAdmin, registerEvent)
 router.route("/events").get(getAllEvent)
 router.route("/events/:id").get(getEventById)
 router.route("/event-update/:id").post(verifyJWT, verifyAdmin, updateEventById)
-router.route("/event-delete/:id").post(verifyJWT, verifyAdmin, deleteEventById)
+router.route("/event-delete/:id").delete(verifyJWT, verifyAdmin, deleteEventById)
 
 export default router
